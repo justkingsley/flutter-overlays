@@ -1,4 +1,0 @@
-#Mon Aug 15 15:48:36 CAT 2022
-base.0=/home/kingsleyz/Workspaces/simply-noted/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex
-renamed.0=classes.dex
-path.0=classes.dex
