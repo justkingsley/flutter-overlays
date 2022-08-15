@@ -34,6 +34,8 @@
 
 import 'package:flutter/material.dart';
 
+import '../../../data/models/sort_type_model.dart';
+
 class SortNotesIconWidget extends StatelessWidget {
   const SortNotesIconWidget({
     Key? key,
@@ -47,17 +49,31 @@ class SortNotesIconWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     /// TODO 1: Use [PopupMenuButton] to sort notes
-    return Row(
-      children: [
-        IconButton(
-          icon: const Icon(Icons.south_rounded),
-          onPressed: sortNotesByNewestFirst,
-        ),
-        IconButton(
-          icon: const Icon(Icons.north_rounded),
-          onPressed: sortNotesByOldestFirst,
-        ),
-      ],
+    return PopupMenuButton<SortType>(
+
+        icon: const Icon(Icons.sort),
+
+        onSelected: (sortType){
+
+          switch(sortType){
+            case  SortType.oldestFirst:
+              sortNotesByOldestFirst();
+              break;
+            case SortType.newestFirst:
+              sortNotesByNewestFirst();
+              break;
+          }
+        },
+        itemBuilder: (BuildContext context) => [
+          const PopupMenuItem(
+              child: Text('Newest First'),
+              value: SortType.newestFirst,
+          ),
+          const PopupMenuItem(
+              child: Text('Oldest First'),
+              value: SortType.oldestFirst,
+              )
+        ]
     );
   }
 }
