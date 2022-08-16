@@ -46,8 +46,31 @@ class DeleteNoteIconWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     ///TODO 2: Use [showDialog] to show a delete confirmation dialog
     return IconButton(
-      onPressed: onDelete,
+      onPressed: () => showDialog(
+          context: context,
+          builder: buildConfirmationDialog),
       icon: const Icon(Icons.delete),
+    );
+  }
+
+  Widget buildConfirmationDialog(BuildContext context){
+    final cancelIcon = IconButton(
+        onPressed: () => Navigator.pop(context),
+        icon: const Icon(Icons.close_sharp,)
+    );
+
+    final confirmIcon = IconButton(
+        onPressed: () {
+          onDelete();
+          Navigator.pop(context);
+        },
+        icon: const Icon(Icons.delete_rounded, color: Colors.redAccent,)
+    );
+
+    return AlertDialog(
+      title: const Text('Warning'),
+      content: const Text('Are you sure you want to delete this note?'),
+      actions: [cancelIcon, confirmIcon],
     );
   }
 }
