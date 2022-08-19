@@ -70,29 +70,30 @@ class CustomPopUpRoute extends PopupRoute{
 
   CustomPopUpRoute({
     required this.builder,
-    RouteSettings? settings
-  });
+    RouteSettings? settings,
+  }) : super(settings: settings);
+
+  final WidgetBuilder builder;
 
   @override
   // TODO: implement barrierColor
-  Color? get barrierColor => throw UnimplementedError();
+  Color? get barrierColor => Colors.black54.withAlpha(100);
 
   @override
   // TODO: implement barrierDismissible
-  bool get barrierDismissible => throw UnimplementedError();
+  bool get barrierDismissible => true;
 
   @override
   // TODO: implement barrierLabel
   String? get barrierLabel => throw UnimplementedError();
 
   @override
-  Widget buildPage(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
-    // TODO: implement buildPage
-    throw UnimplementedError();
-  }
+  Widget buildPage(BuildContext context,
+      Animation<double> animation,
+      Animation<double> secondaryAnimation) => builder(context);
 
   @override
   // TODO: implement transitionDuration
-  Duration get transitionDuration => throw UnimplementedError();
+  Duration get transitionDuration => const Duration(milliseconds: 300);
   
 }
