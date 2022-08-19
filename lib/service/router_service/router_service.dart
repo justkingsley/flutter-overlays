@@ -50,12 +50,12 @@ class RouterService {
           ),
         );
       case SaveNotePage.route:
-
-        /// TODO 3: Create then use CustomPopupRoute
-        return MaterialPageRoute(
+        return CustomPopUpRoute(
             builder: (_) => SaveNotePage(
-                  onNoteSaved: settings.arguments as NoteCallback,
-                ));
+              onNoteSaved: settings.arguments as NoteCallback,
+            ),
+          settings: settings,
+        );
       default:
         return MaterialPageRoute(
           builder: (_) => ErrorPage(
@@ -76,16 +76,13 @@ class CustomPopUpRoute extends PopupRoute{
   final WidgetBuilder builder;
 
   @override
-  // TODO: implement barrierColor
   Color? get barrierColor => Colors.black54.withAlpha(100);
 
   @override
-  // TODO: implement barrierDismissible
   bool get barrierDismissible => true;
 
   @override
-  // TODO: implement barrierLabel
-  String? get barrierLabel => throw UnimplementedError();
+  String? get barrierLabel => 'customPopupRoute';
 
   @override
   Widget buildPage(BuildContext context,
@@ -93,7 +90,20 @@ class CustomPopUpRoute extends PopupRoute{
       Animation<double> secondaryAnimation) => builder(context);
 
   @override
-  // TODO: implement transitionDuration
   Duration get transitionDuration => const Duration(milliseconds: 300);
-  
+
+  @override
+  Widget buildTransitions(BuildContext context,
+      Animation<double> animation,
+      Animation<double> secondaryAnimation,
+      Widget child,
+      ){
+      return ScaleTransition(
+          scale: animation,
+          child: FadeTransition(
+            opacity: animation,
+            child: child,
+          ),
+      );
+    }
 }
