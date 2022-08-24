@@ -58,7 +58,7 @@ class RouterService {
         );
       default:
         return MaterialPageRoute(
-          builder: (_) => ErrorPage(
+          builder: (context) => ErrorPage(
             name: settings.name,
           ),
         );

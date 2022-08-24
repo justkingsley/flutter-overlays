@@ -128,3 +128,5 @@ web/**
 ios/**
 android/**
 build/**
+
+./foo.bundle
