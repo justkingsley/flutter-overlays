@@ -35,6 +35,8 @@
 import 'package:flutter/material.dart';
 
 import '../../data/models/note_model.dart';
+import '../_shared/mixin/overlay_mixin.dart';
+import 'widgets/save_note_confirmation_widget.dart';
 import 'widgets/save_note_form_widget.dart';
 
 const _kAnimationDuration = Duration(milliseconds: 100);
@@ -54,12 +56,22 @@ class SaveNotePage extends StatefulWidget {
     this.noteToEdit,
   }) : super(key: key);
 
+
   @override
   _SaveNotePageState createState() => _SaveNotePageState();
-}
 
-class _SaveNotePageState extends State<SaveNotePage> {
+}
+///
+class _SaveNotePageState extends State<SaveNotePage> with OverlayStateMixin{
   late NoteModel note = widget.noteToEdit ?? NoteModel();
+
+  bool get hasChanges {
+    final isHeaderChanged = widget.noteToEdit?.header != note.header;
+    final isTextChanged = widget.noteToEdit?.text != note.header;
+    return isHeaderChanged || isTextChanged;
+  }
+
+  bool get isEditMode => widget.noteToEdit != null;
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +98,15 @@ class _SaveNotePageState extends State<SaveNotePage> {
 
       /// TODO 6: Check page has edits and show confirmation overlay before
       /// saving the edits
-      widget.onNoteSaved(note);
+      if(isEditMode && hasChanges){
+        toggleOverlay(
+          SaveNoteConfirmationWidget(
+              onConfirm: () => widget.onNoteSaved(note),
+              onCancel: removeOverlay),
+        );
+      }else{
+        widget.onNoteSaved(note);
+    }
     }
   }
 }
