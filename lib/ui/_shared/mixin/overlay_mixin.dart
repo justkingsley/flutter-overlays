@@ -38,4 +38,16 @@ mixin OverlayStateMixin<T extends StatefulWidget> on State<T>{
   void toggleOverlay(Widget child) =>
       isOverlayShown ? removeOverlay() : _insertOverlay(child);
 
+  @override
+  void dispose(){
+    removeOverlay();
+    super.dispose();
+  }
+
+  @override
+  void didChangeDependencies(){
+    removeOverlay();
+    super.didChangeDependencies();
+  }
+
 }

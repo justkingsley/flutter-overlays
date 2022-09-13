@@ -35,6 +35,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../data/models/note_model.dart';
+import '../../_shared/mixin/overlay_mixin.dart';
 import '../../_shared/utils/app_colors.dart';
 import '../../_shared/utils/datetime_utils.dart';
 import '../../save_note/save_note_page.dart';
@@ -56,7 +57,9 @@ class NoteItemWidget extends StatefulWidget {
   _NoteItemWidgetState createState() => _NoteItemWidgetState();
 }
 
-class _NoteItemWidgetState extends State<NoteItemWidget> {
+class _NoteItemWidgetState extends State<NoteItemWidget>
+  with OverlayStateMixin {
+
   NoteModel get note => widget.note;
 
   /// TODO 5: Use [WillPopScope] and [isOverlayShown] to prevent popping
@@ -94,18 +97,17 @@ class _NoteItemWidgetState extends State<NoteItemWidget> {
   }
 
   void onNoteTap() {
-    /// TODO 4: Create and use OverlayMixin to show SaveNotePage as an overlay
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => SaveNotePage(
-          noteToEdit: note,
-          onNoteSaved: (editedNote) {
-            widget.onEdit(editedNote);
-            Navigator.pop(context);
-          },
-        ),
-      ),
+    toggleOverlay(
+      SaveNotePage(
+
+        noteToEdit: note,
+
+        onNoteSaved: (editedNote){
+        widget.onEdit(editedNote);
+        removeOverlay();
+      }
+
+      )
     );
   }
 }
