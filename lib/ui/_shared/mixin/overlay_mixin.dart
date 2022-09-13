@@ -25,4 +25,11 @@ mixin OverlayStateMixin<T extends StatefulWidget> on State<T>{
     ],
   );
 
+  void _insertOverlayWidget(Widget child){
+    _overlayEntry = OverlayEntry(
+        builder: (_) => _dismissibleOverlay(child)
+    );
+
+  }
+
 }
