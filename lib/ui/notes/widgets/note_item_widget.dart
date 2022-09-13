@@ -58,14 +58,21 @@ class NoteItemWidget extends StatefulWidget {
 }
 
 class _NoteItemWidgetState extends State<NoteItemWidget>
-  with OverlayStateMixin {
-
+    with OverlayStateMixin {
   NoteModel get note => widget.note;
 
   /// TODO 5: Use [WillPopScope] and [isOverlayShown] to prevent popping
-  /// the page when used with the Overlay
+
   @override
-  Widget build(BuildContext context) => buildListTile();
+  Widget build(BuildContext context) => WillPopScope(
+      onWillPop: () async {
+        if (isOverlayShown) {
+          removeOverlay();
+          return false;
+        }
+        return true;
+      },
+      child: buildListTile());
 
   Widget buildListTile() {
     final textTheme = Theme.of(context).textTheme;
@@ -97,17 +104,11 @@ class _NoteItemWidgetState extends State<NoteItemWidget>
   }
 
   void onNoteTap() {
-    toggleOverlay(
-      SaveNotePage(
-
+    toggleOverlay(SaveNotePage(
         noteToEdit: note,
-
-        onNoteSaved: (editedNote){
-        widget.onEdit(editedNote);
-        removeOverlay();
-      }
-
-      )
-    );
+        onNoteSaved: (editedNote) {
+          widget.onEdit(editedNote);
+          removeOverlay();
+        }));
   }
 }
